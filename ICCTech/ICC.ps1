@@ -1,6 +1,3 @@
-# Variable globale
-$exitCondition = $true
-
 function showMenu {
     Write-Host "============== ICCTech ================"
     Write-Host "1. Gestion de personnes"
@@ -43,11 +40,11 @@ function createDirectoryTreeAndFiles {
 function addPerson {
 	Write-Host "Voulez vous ajouter un nouvel utilisateur ?"
 	$input = Read-Host
-	if ($input.toLower() -eq "oui" or $input.toLower() -eq "o") {
+	if ($input.toLower() -eq "oui" -or $input.toLower() -eq "o") {
 		$name = Read-Host "Nom d'utilisateur"
 		$fullName = Read-Host "Nom complet"
 		$password = Read-Host "Mot de passe" -AsSecureString
-		$description = "Utilisateur membre de l'ICC, $(fullName) alias $(name)"
+		$description = "Utilisateur membre de l'ICC, $($fullName) alias $($name)"
 		$params = @{
 			Name = $name
 			FullName = $fullName
@@ -65,7 +62,7 @@ function addPerson {
 function removePerson {
 	Write-Host "Voulez vous supprimer un utilisateur ?"
 	$input = Read-Host
-	if ($input.toLower() -eq "oui" or $input.toLower() -eq "o") {
+	if ($input.toLower() -eq "oui" -or $input.toLower() -eq "o") {
 		$name = Read-Host "Nom d'utilisateur"
 		try {
 			Remove-LocalUser -Name $name -Force
@@ -78,7 +75,7 @@ function removePerson {
 function addPersonToGroup {
 	Write-Host "Voulez vous ajouter  un utilisateur à un groupe ?"
 	$input = Read-Host
-	if ($input.toLower() -eq "oui" or $input.toLower() -eq "o") {
+	if ($input.toLower() -eq "oui" -or $input.toLower() -eq "o") {
 		Get-LocalUser
 		$user = Read-Host "Nom de l'utilisateur"
 		Get-LocalGroup
@@ -86,7 +83,7 @@ function addPersonToGroup {
 		try {
 			Add-LocalGroupMember -Group $group -Member $user
 		} catch {
-			Write-Host "Erreur lors de l'ajout du membre dans le groupe souhaité : $($Error[0].Message)" 
+			Write-Host "Erreur lors de l'ajout du membre dans le groupe souhaite : $($Error[0].Message)" 
 		}
 	}
 }
@@ -94,7 +91,7 @@ function addPersonToGroup {
 function removePersonToGroup {
 	Write-Host "Voulez vous supprimer un utilisateur d'un groupe ?"
 	$input = Read-Host
-	if ($input.toLower() -eq "oui" or $input.toLower() -eq "o") {
+	if ($input.toLower() -eq "oui" -or $input.toLower() -eq "o") {
 		Get-LocalUser
 		$user = Read-Host "Nom de l'utilisateur"
 		Get-LocalGroup
@@ -102,7 +99,7 @@ function removePersonToGroup {
 		try {
 			Remove-LocalGroupMember -Group $group -Member $user
 		} catch {
-			Write-Host "Erreur lors de la suppression du membre du groupe souhaité : $($Error[0].Message)"
+			Write-Host "Erreur lors de la suppression du membre du groupe souhaite : $($Error[0].Message)"
 		}
 	}
 }
@@ -139,10 +136,6 @@ function removeGroup {
 	}
 }
 
-function exitProgram {
-	$exitCondition = $false
-}
-
 function userMenu {
 	$userMenuLoop = $true
 	while ($userMenuLoop) {
@@ -153,7 +146,7 @@ function userMenu {
 			"3" { addPersonToGroup }
 			"4" { removePersonToGroup }
 			"5" { $userMenuLoop = $false }
-			default { Write-Host "Mauvais choix, veuillez réessayer"}
+			default { Write-Host "Mauvais choix, veuillez reessayer" }
 		}
 	}
 }
@@ -161,32 +154,36 @@ function userMenu {
 function groupMenu {
 	$groupLoop = $true
 	while ($groupLoop) {
-		showGroupMenu
+		showGroupMenu | Out-Null
 		$input = Read-Host "Choix"
 		switch ($input) {
 			"1" { addGroup }
 			"2" { removeGroup }
 			"3" { $groupLoop = $false }
-			default { Write-Host "Mauvais choix, veuillez réessayer" }
+			default { Write-Host "Mauvais choix, veuillez reessayer" }
 		}
 	}
 }
 
 function Main {
-	Write-Host "Voulez vous créer la structure dans le chemin suivant : $(Get-Location) ?" 
+	Write-Host "Voulez vous creer la structure dans le chemin suivant : $(Get-Location) ?" 
+	$exitCondition = $true;
 	$input = Read-Host
-	if ($input.toLower() -eq "oui" or $input.toLower() -eq "o") {
-		while ($exitCondition) {
-			showMenu
-			$input = Read-Host "Choix"
-			switch ($input) {
-				"1" { addPerson }
-				"2" { groupMenu }
-				"3" { exitProgram }
-				default { Write-Host "Mauvais choix, veuillez réessayer" }
-		}
-		}	
+	if ($input.toLower() -eq "oui" -or $input.toLower() -eq "o") {
+		createDirectoryTreeAndFiles | Out-Null
 	}
-	Write-Host "Fin de tache, bonne journée !"
+	while ($exitCondition) {
+		showMenu
+		$input = Read-Host "Choix"
+		switch ($input) {
+			"1" { addPerson }
+			"2" { groupMenu }
+			"3" { $exitCondition = $false }
+			default { Write-Host "Mauvais choix, veuillez reessayer" }
+		}
+	}
+	Write-Host "Fin de tache, bonne journee !"
 	exit 0
 }
+
+Main
