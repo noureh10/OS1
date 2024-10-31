@@ -1,0 +1,20 @@
+Crée un fichier CSV, en utilisant un éditeur de texte, et renomme-le en .csv. La première ligne doit contenir "Nom", suivie des lignes avec les noms eleve1, eleve2, etc.
+
+Crée un dossier principal nommé "ICC".
+
+Écris un script qui :
+
+Lit le fichier CSV pour récupérer les noms des élèves et le nombre de dossiers à créer.
+Crée, dans le dossier "ICC", des sous-dossiers pour chaque élève (eleve1, eleve2, …).
+Dans chaque dossier élève, crée trois sous-dossiers : "documents", "telechargement" et "prive".
+Écris un deuxième script qui :
+
+Copie le contenu d'un dossier "documents utiles" dans les dossiers "documents" de chaque élève.
+Ajoute une fonctionnalité de vérification :
+
+Le script doit vérifier la taille des dossiers de chaque élève et afficher une alerte si l'un des dossiers dépasse 50 Mo.
+Consignes supplémentaires :
+
+Le script doit être dynamique : s’il y a des ajouts de lignes pour de nouveaux élèves dans le fichier CSV, le script doit créer automatiquement les dossiers correspondants.
+Le copier-coller depuis "documents utiles" doit aussi s’appliquer aux nouveaux élèves.
+Assure-toi que les fichiers dans "documents utiles" contiennent du contenu (ex. : ajoute une lettre ou un symbole si nécessaire) pour éviter qu'ils soient ignorés par PowerShell, car les fichiers vides ne sont pas copiés.
