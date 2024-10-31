@@ -1,0 +1,10 @@
+Le responsable des RH vous demande de créer un dossier RH\Salaires\employes et RH\Salaires\managers
+Tous les dossiers doivent contenir le fichier salaires.txt (à créer seulement 1x)
+
+ICCTech vient aussi d'engager 3 personnes, les noms sont à demander dans le script
+
+votre manager veut aussi créer 2 groupes, les noms sont à demander dans le script
+
+Il faudra aussi prévoir d'ajouter des personnes dans les groupes
+
+Merci de prévoir le suppression des groupes et ou personnes si on vous le demande
