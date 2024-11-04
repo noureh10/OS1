@@ -12,14 +12,14 @@ function addPerson {
 	try {
 		New-LocalUser @params
 	} catch {
-		Write-Host "Erreur lors de la création de l'utilisateur : $($Error[0].Message)"
+		Write-Host "Erreur lors de la creation de l'utilisateur : $($Error[0].Message)"
 	}
 }
 
 function addDirectory {
 	$folderName = Read-Host "Nom du répertoire"
 	if (!(Test-Path -Path $folderName)) {
-		New-Item -ItemType Directory -Path $directory
+		New-Item -ItemType Directory -Path $folderName
 	}
 }
 
@@ -36,7 +36,7 @@ function Main {
 	}
 	$loop = $true
 	while ($loop) {
-		Write-Host "Voulez vous ajouter un nouveau répertoire ?"
+		Write-Host "Voulez vous ajouter un nouveau repertoire ?"
 		$input = Read-Host
 		if ($input.toLower() -eq "oui" -or $input.toLower() -eq "o") {
 			addDirectory
